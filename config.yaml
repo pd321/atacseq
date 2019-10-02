@@ -1,0 +1,38 @@
+general:
+  metadata_file: "metadata.tsv"
+  threads: 8
+
+bowtie2:
+  idx: 'data/external/ref/idx/bowtie2/bowtie2'
+  maxins: 2000
+
+bamfilter:
+  remove: 1804
+  keep: 2
+  mapqual: 10
+
+macs2:
+  qvalue: 0.01
+  gsize: hs
+
+blklist_filt:
+  blklist_regions: 'data/external/ref/meta/blacklist.bed'
+
+homer:
+  genome: 'hg19'
+
+bdg2bw:
+  genome_sizes: 'data/external/ref/fa/genome.chrom.sizes'
+
+methods:
+  genome_name: 'hg19'
+
+ataqv:
+  organism: human
+  tssfile: 'data/external/ref/gtf/refflat.bed'
+  excludedregionfile: 'data/external/ref/meta/blacklist.bed'
+
+trimgalore:
+  quality: 10
+  stringency: 5
+  e: 0.1

@@ -1,0 +1,8 @@
+name: ataqv
+channels:
+ - conda-forge
+ - bioconda
+ - defaults
+dependencies:
+ - ataqv = 1.0.0
+

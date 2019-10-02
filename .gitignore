@@ -1,0 +1,19 @@
+# Ignoring large files
+*.fq.gz
+*.fq
+*.fastq.gz
+
+# Output
+*.bam
+*.bai
+*.bw
+*.bdg
+
+# Pycharm files
+.idea
+
+# Rstudio files
+*.Rhistory
+*.RData
+*.Rproj
+*.Rproj.user

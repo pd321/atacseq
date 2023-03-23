@@ -42,7 +42,7 @@ rule bdg2bw:
 	params:
 		genome_sizes = config['bdg2bw']['genome_sizes']
 	shell:
-		'src/shell/bdg2bw '
+		'../scripts/bdg2bw '
 		'{input} '
 		'{params.genome_sizes} '
 		'{output.bw}'
@@ -86,7 +86,7 @@ rule clean_merge_homer:
 	log:
 		"logs/clean_merge_homer/{sample}.log"
 	shell:
-		'Rscript --vanilla src/R/homerCleanAndMerge.R '
+		'Rscript --vanilla ../scripts/homerCleanAndMerge.R '
 		'--macs2Peaks {input.macs2_out} '
 		'--homerOutFile {input.homer_out} '
 		'--outFile {output} 2>&1 | tee {log}'

@@ -1,17 +1,16 @@
 import pandas as pd
 
-report: "report/workflow.rst"
+report: "../report/workflow.rst"
 
-configfile: 'config.yaml'
+configfile: 'config/config.yaml'
 
 # Setup vars
-threads_high = int(config['general']['threads'])
-threads_mid = int(threads_high/2)
-threads_low = int(threads_high/4)
+config_threads = int(config["threads"])
+run_name = os.path.basename(os.getcwd())
 
 # Load in metadata
-metadata_file = config['general']['metadata_file']
-metadata_df = pd.read_csv(metadata_file, sep = "\t", index_col = "SampleName")
+metadata_file = "config/metadata.tsv"
+metadata_df = pd.read_csv(metadata_file, sep = "\t").set_index('sample_name', drop=False)
 
 # Setup samplesheet
 samplesheet =  metadata_df.to_dict(orient='index')
@@ -19,5 +18,5 @@ samples = sorted(samplesheet.keys())
 
 # Some of the required functions
 def get_fastq(wildcards):
-	return metadata_df.loc[(wildcards.sample), ["R1", "R2"]]
+	return metadata_df.loc[(wildcards.sample), ["r1", "r2"]]
 

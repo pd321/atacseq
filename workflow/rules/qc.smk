@@ -4,9 +4,11 @@ rule fastqc:
 	output:
 		html="results/qc/fastqc/{sample}_{group}_fastqc.html",
 		zip="results/qc/fastqc/{sample}_{group}_fastqc.zip"
-	threads: threads_mid
+	log:
+		"logs/qc/fastqc/{sample}_{group}_fastqc.log"
+	threads: config_threads
 	wrapper:
-		"0.34.0/bio/fastqc"
+		"v1.24.0/bio/fastqc"
 
 rule phantompeakqual:
 	input:
@@ -15,10 +17,10 @@ rule phantompeakqual:
 		stats = "results/qc/phantompeakqual/{sample}.spp.out",
 		crosscorrplot = report("results/qc/phantompeakqual/{sample}_filt.pdf", caption="report/phantompeakquals.rst", category="Quality control")
 	conda:
-		"envs/phantompeakqualtools.yaml"
+		"../envs/phantompeakqualtools.yaml"
 	log:
 		"logs/phantompeakqual/{sample}.log"
-	threads: threads_mid	
+	threads: config_threads	
 	shell:
 		'run_spp.R '
 		'-c={input} '
@@ -35,14 +37,14 @@ rule ataqv:
 	output:
 		temp("results/qc/ataqv/{sample}.ataqv.json")
 	conda:
-		"envs/ataqv.yaml"
+		"../envs/ataqv.yaml"
 	log:
 		"logs/ataqv/{sample}.log"
 	params:
 		organism = config['ataqv']['organism'],
 		tssfile = config['ataqv']['tssfile'],
 		excludedregionfile = config['ataqv']['excludedregionfile']
-	threads: threads_high
+	threads: config_threads
 	shell:
 		'ataqv '
 		'--peak-file {input.peaks} '
@@ -59,8 +61,8 @@ rule ataqv_merge:
 	output:
 		"results/qc/ataqv/report/index.html"
 	conda:
-		"envs/ataqv.yaml"
-	threads: threads_high
+		"../envs/ataqv.yaml"
+	threads: config_threads
 	shell:
 		'mkarv '
 		'--concurrency {threads} '
@@ -74,8 +76,8 @@ rule multiqc:
 	output:
 		report("results/qc/multiqc/multiqc_report.html", caption="report/multiqc.rst", category="Quality control")
 	conda:
-		"envs/multiqc.yaml"
-	threads: threads_high
+		"../envs/multiqc.yaml"
+	threads: 1
 	log:
 		"logs/multiqc/multiqc.log"
 	shell:

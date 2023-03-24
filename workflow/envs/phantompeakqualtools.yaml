@@ -1,8 +1,7 @@
-name: phantompeakqualtools
 channels:
- - conda-forge
- - bioconda
- - defaults
+  - conda-forge
+  - bioconda
+  - nodefaults
 dependencies:
- - phantompeakqualtools = 1.2
+  - phantompeakqualtools = 1.2.2
 

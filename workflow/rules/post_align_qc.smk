@@ -10,6 +10,75 @@ rule fastqc:
 	wrapper:
 		"v1.24.0/bio/fastqc"
 
+rule remdup:
+	input:
+		rules.bowtie2.output
+	output:
+		bam = temp("results/bam/{sample}_remdup.bam"),
+		bai = temp("results/bam/{sample}_remdup.bai")
+	conda:
+		"envs/picard.yaml"
+	log: 
+		metrics = "results/qc/picard/{sample}.txt",
+		logfile = "logs/picard/{sample}.log"
+	threads: threads_mid
+	shell:
+		'picard MarkDuplicates '
+		'INPUT={input} '
+		'OUTPUT={output.bam} '
+		'REMOVE_DUPLICATES=true '
+		'ASSUME_SORTED=true '
+		'CREATE_INDEX=true '
+		'METRICS_FILE={log.metrics} '
+		'2> {log.logfile}'
+
+
+rule bamfilter:
+	input:
+		bam = rules.remdup.output.bam,
+		bai = rules.remdup.output.bai
+	output:
+		"results/bam/{sample}_filt.bam"
+	conda:
+		"envs/samtools.yaml"
+	threads: threads_mid
+	params:	
+		remove = config['bamfilter']['remove'],
+		keep = config['bamfilter']['keep'],
+		mapqual = config['bamfilter']['mapqual']
+	shell:
+		'samtools idxstats '
+		'{input.bam} | cut -f 1 | grep -v chrM | xargs samtools view '
+		'--threads {threads} '
+		'-F {params.remove} '
+		'-f {params.keep} '
+		'-q {params.mapqual} '
+		'-o {output} {input.bam}'
+
+rule flagstat:
+	input:
+		rules.bamfilter.output
+	output:
+		"results/qc/flagstat/{sample}.txt"
+	conda:
+		"envs/samtools.yaml"
+	threads: threads_high
+	shell:
+		'samtools flagstat '
+		'--threads {threads} '
+		'{input} > {output}'
+
+rule index_bam:
+	input:
+		rules.bamfilter.output
+	output:
+		"results/bam/{sample}_filt.bam.bai"
+	conda:
+		"envs/samtools.yaml"
+	threads: threads_mid
+	shell:
+		'samtools index -@ {threads} {input}'
+
 rule phantompeakqual:
 	input:
 		rules.bamfilter.output

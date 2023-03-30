@@ -1,0 +1,4 @@
+KeyErrorin line 12 of /Users/pdak0001/org/code/atacseq/workflow/rules/bw.smk:
+'bamcoverage_bw'
+  File "/Users/pdak0001/org/code/atacseq/workflow/Snakefile", line 6, in <module>
+  File "/Users/pdak0001/org/code/atacseq/workflow/rules/bw.smk", line 12, in <module>

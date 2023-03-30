@@ -1,0 +1,4 @@
+SyntaxError:
+Not all output, log and benchmark files of rule macs2 contain the same wildcards. This is crucial though, in order to avoid that two or more jobs write to the same file.
+  File "/Users/pdak0001/org/code/atacseq/workflow/Snakefile", line 5, in <module>
+  File "/Users/pdak0001/org/code/atacseq/workflow/rules/peaks.smk", line 16, in <module>

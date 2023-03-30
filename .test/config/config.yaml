@@ -62,4 +62,3 @@ bamcoverage_bw:
   # considered independently, if you want to only count one mate from a    pair in paired-end
   # data, then use the –samFlagInclude/–samFlagExclude options. (Default: None)
   normalize_using: 'CPM'
-

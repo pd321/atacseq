@@ -1,0 +1,4 @@
+AttributeErrorin line 4 of /Users/pdak0001/org/code/atacseq/workflow/rules/post_peakcalling_qc.smk:
+'Rules' object has no attribute 'blklist_filt'
+  File "/Users/pdak0001/org/code/atacseq/workflow/Snakefile", line 7, in <module>
+  File "/Users/pdak0001/org/code/atacseq/workflow/rules/post_peakcalling_qc.smk", line 4, in <module>

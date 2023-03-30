@@ -23,8 +23,9 @@ rule trimgalore:
 	params:
 		quality = config['trimgalore']['quality'],
 		stringency = config['trimgalore']['stringency'],
-		e = config['trimgalore']['e']
-	threads: threads_mid
+		e = config['trimgalore']['e'],
+		threads_actual = config_threads if config_threads < 4 else 4
+	threads: config_threads
 	shell:
 		'trim_galore '
 		'--quality {params.quality} '
@@ -32,7 +33,7 @@ rule trimgalore:
 		'-e {params.e} '
 		'--gzip '
 		'--output_dir results/qc/trimgalore '
-		'--cores 4 '
+		'--cores {params.threads_actual} '
 		'--basename {wildcards.sample} '
 		'--paired --no_report_file '
 		'{input[0]} {input[1]} 2>&1 | tee {log}'

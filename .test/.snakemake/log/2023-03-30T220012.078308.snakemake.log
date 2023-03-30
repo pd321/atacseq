@@ -1,0 +1,4 @@
+KeyErrorin line 20 of /Users/pdak0001/org/code/atacseq/workflow/rules/post_align_qc.smk:
+'blklist_regions'
+  File "/Users/pdak0001/org/code/atacseq/workflow/Snakefile", line 4, in <module>
+  File "/Users/pdak0001/org/code/atacseq/workflow/rules/post_align_qc.smk", line 20, in <module>

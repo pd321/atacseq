@@ -1,11 +1,14 @@
-include: "src/common.smk"
-include: "src/align.smk"
-include: "src/peaks.smk"
-include: "src/qc.smk"
+include: "rules/common.smk"
+include: "rules/pre_align_qc.smk"
+include: "rules/align.smk"
+include: "rules/post_align_qc.smk"
+include: "rules/peaks.smk"
+include: "rules/bw.smk"
+include: "rules/post_peakcalling_qc.smk"
 
 rule all:
 	input:
 		"results/qc/multiqc/multiqc_report.html",
 		"results/qc/ataqv/report/index.html",
-		expand("results/peaks_annot/{sample}.xls", sample = samples),
+		expand("results/peaks/{sample}/{sample}_peaks.narrowPeak", sample = samples),
 		expand("results/bw/{sample}.bw", sample = samples)

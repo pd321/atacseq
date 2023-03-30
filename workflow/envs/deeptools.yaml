@@ -3,4 +3,4 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - phantompeakqualtools = 1.2.2
+  - deeptools = 3.5.1

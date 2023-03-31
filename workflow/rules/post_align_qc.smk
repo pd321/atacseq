@@ -63,7 +63,9 @@ rule bamfilter:
 		'-o {output.bam}##idx##{output.idx} {input.bam}'
 
 rule re_sort_bam:
-	input: rules.bamfilter.output.bam
+	input: 
+		bam = rules.bamfilter.output.bam,
+		bai = rules.bamfilter.output.bai
 	output: 
 		bam = "results/bam/{sample}.sorted.remdup.nonblklst.filt.resort.bam",
 		idx = "results/bam/{sample}.sorted.remdup.nonblklst.filt.resort.bai"

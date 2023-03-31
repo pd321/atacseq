@@ -21,7 +21,6 @@ methods:
 ataqv:
   organism: mouse
   tssfile: 'data/external/ref/gtf/refflat.bed'
-  excludedregionfile: 'data/external/ref/meta/blacklist.bed'
 
 trimgalore:
   quality: 10

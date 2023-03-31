@@ -11,7 +11,7 @@ rule ataqv:
 	params:
 		organism = config['ataqv']['organism'],
 		tssfile = config['ataqv']['tssfile'],
-		excludedregionfile = config['ataqv']['excludedregionfile']
+		excludedregionfile = config['blklist_regions']
 	threads: config_threads
 	shell:
 		'ataqv '

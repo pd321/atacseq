@@ -36,7 +36,7 @@ rule index_bam:
 		"logs/qc/samtools_index/{sample}.log"
 	threads: config_threads
 	wrapper:
-		"v1.25.0-10-gca0d13fa/bio/samtools/idxstats"
+		"v1.25.0-52-g79342b73/bio/samtools/index"
 
 rule bamfilter:
 	input:

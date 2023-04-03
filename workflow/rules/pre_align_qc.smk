@@ -21,16 +21,10 @@ rule trimgalore:
 	log:
 		"logs/qc/trimgalore/{sample}.log"
 	params:
-		quality = config['trimgalore']['quality'],
-		stringency = config['trimgalore']['stringency'],
-		e = config['trimgalore']['e'],
 		threads_actual = config_threads if config_threads < 4 else 4
 	threads: config_threads
 	shell:
 		'trim_galore '
-		'--quality {params.quality} '
-		'--stringency {params.stringency} '
-		'-e {params.e} '
 		'--gzip '
 		'--output_dir results/qc/trimgalore '
 		'--cores {params.threads_actual} '

@@ -22,11 +22,6 @@ ataqv:
   organism: mouse
   tssfile: 'data/external/ref/gtf/refflat.bed'
 
-trimgalore:
-  quality: 10
-  stringency: 5
-  e: 0.1
-
 bamcoverage_bw:
   # --binSize, -bs   
   # Size of the bins, in bases, 

@@ -20,7 +20,7 @@ methods:
 
 ataqv:
   organism: mouse
-  tssfile: 'data/external/ref/gtf/refflat.bed'
+  tssfile: 'data/external/ref/misc/ataqv_tss_file.bed'
 
 bamcoverage_bw:
   # --binSize, -bs   

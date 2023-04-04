@@ -20,8 +20,7 @@ methods:
 
 ataqv:
   organism: mouse
-  tssfile: 'data/external/ref/gtf/refflat.bed'
-  excludedregionfile: 'data/external/ref/meta/blacklist.bed'
+  tssfile: 'data/external/ref/misc/ataqv_tss_file.bed'
 
 bamcoverage_bw:
   # --binSize, -bs   
@@ -57,3 +56,4 @@ bamcoverage_bw:
   # considered independently, if you want to only count one mate from a    pair in paired-end
   # data, then use the –samFlagInclude/–samFlagExclude options. (Default: None)
   normalize_using: 'CPM'
+

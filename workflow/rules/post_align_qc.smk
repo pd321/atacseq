@@ -90,8 +90,8 @@ rule phantompeakqual:
 	input:
 		rules.re_sort_bam.output.bam
 	output:
-		stats = "results/qc/phantompeakqual/{sample}.spp.out",
-		crosscorrplot = report("results/qc/phantompeakqual/{sample}_filt.pdf", caption="report/phantompeakquals.rst", category="Quality control")
+		stats = "results/qc/phantompeakqual/{sample}.sorted.remdup.nonblklst.filt.resort.spp.out",
+		crosscorrplot = report("results/qc/phantompeakqual/{sample}.sorted.remdup.nonblklst.filt.resort.pdf", caption="report/phantompeakquals.rst", category="Quality control")
 	conda:
 		"../envs/phantompeakqualtools.yaml"
 	log:

@@ -70,7 +70,7 @@ rule re_sort_bam:
 		bam = "results/bam/{sample}.sorted.remdup.nonblklst.filt.resort.bam",
 		idx = "results/bam/{sample}.sorted.remdup.nonblklst.filt.resort.bai"
 	log:
-		"logs/samtools/resortbam/{sample}.log"
+		"logs/resortbam/{sample}.log"
 	threads: config_threads
 	wrapper:
 		"v1.23.5-48-gf27313f0/bio/samtools/sort"
@@ -95,7 +95,7 @@ rule phantompeakqual:
 	conda:
 		"../envs/phantompeakqualtools.yaml"
 	log:
-		"logs/phantompeakqual/{sample}.log"
+		"logs/qc/phantompeakqual/{sample}.log"
 	threads: config_threads	
 	shell:
 		'run_spp.R '

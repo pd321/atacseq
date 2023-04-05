@@ -14,8 +14,8 @@ rule trimgalore:
 	input:
 		get_fastq
 	output:
-		r1 = temp("results/qc/trimgalore/{sample}_val_1.fq.gz"),
-		r2 = temp("results/qc/trimgalore/{sample}_val_2.fq.gz")
+		r1 = "results/qc/trimgalore/{sample}_val_1.fq.gz",
+		r2 = "results/qc/trimgalore/{sample}_val_2.fq.gz"
 	conda:
 		"../envs/trimgalore.yaml"
 	log:

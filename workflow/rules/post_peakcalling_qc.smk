@@ -47,7 +47,7 @@ rule multiqc:
 		"../envs/multiqc.yaml"
 	threads: 1
 	log:
-		"logs/multiqc/multiqc.log"
+		"logs/qc/multiqc/multiqc.log"
 	shell:
 		'multiqc '
 		'--force '

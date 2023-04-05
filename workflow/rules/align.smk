@@ -26,7 +26,7 @@ rule sortbam:
 		bam = temp("results/bam/{sample}.sorted.bam"),
 		idx = temp("results/bam/{sample}.sorted.bai")
 	log:
-		"logs/samtools/sortbam/{sample}.log"
+		"logs/sortbam/{sample}.log"
 	threads: config_threads
 	wrapper:
 		"v1.23.5-48-gf27313f0/bio/samtools/sort"

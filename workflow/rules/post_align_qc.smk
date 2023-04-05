@@ -65,7 +65,7 @@ rule bamfilter:
 rule re_sort_bam:
 	input: 
 		bam = rules.bamfilter.output.bam,
-		bai = rules.bamfilter.output.bai
+		bai = rules.bamfilter.output.idx
 	output: 
 		bam = "results/bam/{sample}.sorted.remdup.nonblklst.filt.resort.bam",
 		idx = "results/bam/{sample}.sorted.remdup.nonblklst.filt.resort.bai"
@@ -104,4 +104,3 @@ rule phantompeakqual:
 		'-savp '
 		'-odir=results/qc/phantompeakqual '
 		'-out={output.stats} 2>&1 | tee {log}'
-

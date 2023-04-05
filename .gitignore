@@ -17,3 +17,5 @@
 *.RData
 *.Rproj
 *.Rproj.user
+
+.test/.snakemake

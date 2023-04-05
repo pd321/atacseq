@@ -1,0 +1,77 @@
+$schema: "http://json-schema.org/draft-06/schema#"
+
+description: snakemake configuration file
+
+type: object
+
+properties:
+  threads:
+    type: integer
+  bowtie2:
+    type: object
+    properties:
+      idx: 
+        type: string
+      maxins: 
+        type: integer
+    required:
+      - idx
+  bamfilter:
+    type: object
+    properties:
+      remove: 
+        type: integer
+      keep: 
+        type: integer
+      mapqual: 
+        type: integer
+  macs2:
+    type: object
+    properties:
+      qvalue: 
+        type: number
+      gsize: 
+        type: string
+    required:
+      - qvalue
+      - gsize
+  blklist_regions:
+    type: string
+  methods:
+    type: object
+    properties:
+      genome_name: 
+        type: string
+  ataqv:
+    type: object
+    properties:
+      organism:
+        type: string
+      tssfile:
+        type: string
+    required:
+      - organism
+      - tssfile
+  bamcoverage_bw:
+    type: object
+    properties:
+      bin_size:
+        type: integer
+      smooth_length:
+        type: integer
+      normalize_using:
+        type: string
+    required:
+      - bin_size
+      - smooth_length
+      - normalize_using
+
+
+required:
+  - threads
+  - bowtie2
+  - bamfilter
+  - macs2
+  - blklist_regions
+  - ataqv
+  - bamcoverage_bw

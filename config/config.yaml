@@ -2,7 +2,7 @@ threads: 1
 
 bowtie2:
   idx: 'data/external/ref/idx/bowtie2/index'
-  maxins: '2000'
+  maxins: 2000
 
 bamfilter:
   remove: 1804

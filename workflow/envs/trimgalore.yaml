@@ -4,4 +4,3 @@ channels:
   - nodefaults
 dependencies:
   - trim-galore = 0.6.10
-

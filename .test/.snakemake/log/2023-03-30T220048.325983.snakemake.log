@@ -1,0 +1,4 @@
+NameErrorin line 50 of /Users/pdak0001/org/code/atacseq/workflow/rules/post_align_qc.smk:
+name 'threads_mid' is not defined
+  File "/Users/pdak0001/org/code/atacseq/workflow/Snakefile", line 4, in <module>
+  File "/Users/pdak0001/org/code/atacseq/workflow/rules/post_align_qc.smk", line 50, in <module>

@@ -1,0 +1,9 @@
+Building DAG of jobs...
+InputFunctionExceptionin line 1 of /Users/pdak0001/org/code/atacseq/workflow/rules/pre_align_qc.smk:
+Error:
+  KeyError: 'R1'
+Wildcards:
+  sample=sample1
+  group=R1
+Traceback:
+  File "/Users/pdak0001/org/code/atacseq/workflow/rules/pre_align_qc.smk", line 3, in <lambda>

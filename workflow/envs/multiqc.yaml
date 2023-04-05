@@ -4,4 +4,3 @@ channels:
   - nodefaults
 dependencies:
   - multiqc = 1.14
-

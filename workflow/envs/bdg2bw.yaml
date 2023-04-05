@@ -1,9 +1,0 @@
-name: bdg2bw
-channels:
-  - bioconda
-  - conda-forge
-  - defaults
-dependencies:
- - bedtools = 2.27.1
- - ucsc-bedclip = 377
- - ucsc-bedgraphtobigwig = 377

@@ -1,0 +1,4 @@
+AttributeErrorin line 63 of /Users/pdak0001/org/code/atacseq/workflow/rules/post_align_qc.smk:
+invalid name for input, output, wildcard, params or log: remove is reserved for internal use
+  File "/Users/pdak0001/org/code/atacseq/workflow/Snakefile", line 4, in <module>
+  File "/Users/pdak0001/org/code/atacseq/workflow/rules/post_align_qc.smk", line 63, in <module>

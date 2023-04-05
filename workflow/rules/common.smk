@@ -1,8 +1,11 @@
 import pandas as pd
+from snakemake.utils import validate
 
 report: "../report/workflow.rst"
 
 configfile: 'config/config.yaml'
+
+validate(config, schema="../schemas/config.schema.yaml")
 
 # Setup vars
 config_threads = int(config["threads"])

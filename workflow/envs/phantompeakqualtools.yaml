@@ -4,4 +4,3 @@ channels:
   - nodefaults
 dependencies:
   - phantompeakqualtools = 1.2.2
-

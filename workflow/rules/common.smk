@@ -21,5 +21,5 @@ samples = sorted(samplesheet.keys())
 
 # Some of the required functions
 def get_fastq(wildcards):
-	return metadata_df.loc[(wildcards.sample), ["r1", "r2"]]
+    return metadata_df.loc[(wildcards.sample), ["r1", "r2"]]
 

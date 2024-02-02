@@ -7,6 +7,41 @@ type: object
 properties:
   threads:
     type: integer
+  labname:
+    type: string
+  platform:
+    type: string
+  trimgalore:
+    type: object
+    properties:
+      quality:
+        type: integer
+      stringency:
+        type: integer
+      e:
+        type: number
+      length:
+        type: integer
+    required:
+      - quality
+      - stringency
+      - e
+  bowtie:
+    type: object
+    properties:
+      max_multiple_aln:
+        type: integer
+      max_aln_per_read:
+        type: integer
+      chunkmbs:
+        type: integer
+      idx:
+        type: string
+    required:
+      - max_multiple_aln
+      - max_aln_per_read
+      - chunkmbs
+      - idx
   bowtie2:
     type: object
     properties:
@@ -16,14 +51,16 @@ properties:
         type: integer
     required:
       - idx
-  bamfilter:
+  filter_bam:
     type: object
     properties:
-      remove: 
+      pe_keep_reads_flags:
         type: integer
-      keep: 
+      pe_remove_reads_flags:
         type: integer
-      mapqual: 
+      se_remove_reads_flags:
+        type: integer
+      mapqual_filter:
         type: integer
   macs2:
     type: object
@@ -61,16 +98,21 @@ properties:
         type: integer
       normalize_using:
         type: string
+      read_extension_length:
+        type: integer
     required:
       - bin_size
       - smooth_length
       - normalize_using
+      - read_extension_length
 
 
 required:
   - threads
+  - platform
+  - trimgalore
   - bowtie2
-  - bamfilter
+  - filter_bam
   - macs2
   - blklist_regions
   - ataqv

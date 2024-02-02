@@ -1,13 +1,53 @@
 threads: 1
 
+# labname to include in bam header
+labname: ''
+# name of the seqeucing platform
+platform: 'ILLUMINA'
+
+trimgalore:
+  # -q/--quality <INT>     Trim low-quality ends from reads in addition to adapter removal. For
+  #                       RRBS samples, quality trimming will be performed first, and adapter
+  #                       trimming is carried in a second round. Other files are quality and adapter
+  #                       trimmed in a single pass. The algorithm is the same as the one used by BWA
+  #                       (Subtract INT from all qualities; compute partial sums from all indices
+  #                       to the end of the sequence; cut sequence at the index at which the sum is
+  #                       minimal). Default Phred score: 20.
+  quality: 20
+  # --stringency <INT>    Overlap with adapter sequence required to trim a sequence. Defaults to a
+  #                      very stringent setting of 1, i.e. even a single bp of overlapping sequence
+  #                      will be trimmed off from the 3' end of any read.
+  stringency: 1
+  # -e <ERROR RATE>         Maximum allowed error rate (no. of errors divided by the length of the matching
+  #                       region) (default: 0.1)
+  e: 0.1
+  # --length <INT>
+  # Discard reads that became shorter than length INT because of either quality or adapter trimming. A value of 0 effectively disables this behaviour.
+  # Default: 20 bp.
+  # For paired-end files, both reads of a read-pair need to be longer than bp to be printed out to validated paired-end files (see option --paired). If only one read became too short there is the possibility of keeping such unpaired single-end reads (see --retain_unpaired).
+  # Default pair-cutoff: 20 bp.
+  length: 20
+
+# used to align single end reads to the ref genome
+bowtie:
+  # -m <int>           suppress all alignments if > <int> exist (def: no limit)
+  max_multiple_aln: 2
+  # -k <int>           report up to <int> good alignments per read (default: 1)
+  max_aln_per_read: 2
+  # --chunkmbs <int>   max megabytes of RAM for best-first search frames (def: 64)
+  chunkmbs: 250
+  # idx location
+  idx: "data/external/ref/idx/bowtie/index"
+
 bowtie2:
   idx: 'data/external/ref/idx/bowtie2/index'
   maxins: 2000
 
-bamfilter:
-  remove: 1804
-  keep: 2
-  mapqual: 10
+filter_bam:
+  pe_keep_reads_flags: 2
+  pe_remove_reads_flags: 1804
+  se_remove_reads_flags: 1028
+  mapqual_filter: 10
 
 macs2:
   qvalue: 0.05
@@ -57,3 +97,16 @@ bamcoverage_bw:
   # data, then use the –samFlagInclude/–samFlagExclude options. (Default: None)
   normalize_using: 'CPM'
 
+  # --extendReads, -e
+  #    This parameter allows the extension of reads to fragment size. If set, each
+  # read is extended, without exception. NOTE: This feature is generally NOT
+  # recommended for spliced-read data, such as RNA-seq, as it would extend reads over skipped
+  # regions. Single-end: Requires a user specified value for the final fragment length.
+  # Reads that already exceed this fragment length will not be extended. Paired-end:
+  # Reads with mates are always extended to match the fragment size defined by the two
+  # read mates. Unmated reads, mate reads that map too far apart (>4x fragment length)
+  # or even map to different chromosomes are treated like single-end reads. The input
+  # of a fragment length value is optional. If no value is specified, it is estimated
+  # from the data (mean of the fragment size of all mate reads).
+  # NOTE: this setting in config is only applicable to single end data
+  read_extension_length: 200

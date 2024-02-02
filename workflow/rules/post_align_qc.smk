@@ -1,10 +1,10 @@
 rule remdup:
     input:
-        bams = rules.sortbam.output.bam
+        bams=rules.sortbam.output.bam
     output:
-        bam = temp("results/bam/{sample}.sorted.remdup.bam"),
-        bai = temp("results/bam/{sample}.sorted.remdup.bai"),
-        metrics = "results/qc/remdup/{sample}.metrics.txt"
+        bam=temp("results/bam/{sample}.sorted.remdup.bam"),
+        bai=temp("results/bam/{sample}.sorted.remdup.bai"),
+        metrics="results/qc/remdup/{sample}.metrics.txt"
     threads:
         config_threads
     log:
@@ -16,8 +16,8 @@ rule remdup:
 
 rule remove_blacklist_reads:
     input:
-        left = rules.remdup.output.bam,
-        right = config['blklist_regions']
+        left=rules.remdup.output.bam,
+        right=config['blklist_regions']
     output:
         temp("results/bam/{sample}.sorted.remdup.nonblklst.bam")
     log:
@@ -27,6 +27,7 @@ rule remove_blacklist_reads:
     wrapper:
         "v1.24.0/bio/bedtools/intersect"
 
+# This indexing is needed as we will do a region based filtering on the bam next
 rule index_bam:
     input:
         rules.remove_blacklist_reads.output
@@ -38,37 +39,39 @@ rule index_bam:
     wrapper:
         "v1.25.0-52-g79342b73/bio/samtools/index"
 
-rule bamfilter:
+# This rule is customized to remove chrM
+rule filter_bam:
     input:
-        bam = rules.remove_blacklist_reads.output,
-        bai = rules.index_bam.output
+        bam=rules.remove_blacklist_reads.output,
+        bai=rules.index_bam.output
     output:
-        bam = temp("results/bam/{sample}.sorted.remdup.nonblklst.filt.bam"),
-        idx = temp("results/bam/{sample}.sorted.remdup.nonblklst.filt.bai")
+        bam=temp("results/bam/{sample}.sorted.remdup.nonblklst.filt.bam"),
+        idx=temp("results/bam/{sample}.sorted.remdup.nonblklst.filt.bai")
     conda:
         "../envs/samtools.yaml"
-    threads: config_threads
+    log:
+        "logs/qc/filter_bam/{sample}.log"
+    threads:
+        config_threads
     params:
-        remove_reads = config['bamfilter']['remove'],
-        keep_reads = config['bamfilter']['keep'],
-        mapqual = config['bamfilter']['mapqual']
+        filter_params=get_bamfilter_params
     shell:
-        'samtools idxstats '
-        '{input.bam} | cut -f 1 | grep -v chrM | xargs samtools view '
+        'samtools idxstats {input.bam} | '
+        'cut -f 1 | '
+        'grep -v chrM | '
+        'xargs samtools view '
         '--threads {threads} '
         '--write-index '
-        '-F {params.remove_reads} '
-        '-f {params.keep_reads} '
-        '-q {params.mapqual} '
-        '-o {output.bam}##idx##{output.idx} {input.bam}'
+        '{params.filter_params} '
+        '-o {output.bam}##idx##{output.idx} {input.bam} 2>&1 {log}'
 
 rule re_sort_bam:
     input:
-        bam = rules.bamfilter.output.bam,
-        bai = rules.bamfilter.output.idx
+        bam=rules.filter_bam.output.bam,
+        bai=rules.filter_bam.output.idx
     output:
-        bam = "results/bam/{sample}.sorted.remdup.nonblklst.filt.resort.bam",
-        idx = "results/bam/{sample}.sorted.remdup.nonblklst.filt.resort.bai"
+        bam="results/bam/{sample}.sorted.remdup.nonblklst.filt.resort.bam",
+        idx="results/bam/{sample}.sorted.remdup.nonblklst.filt.resort.bai"
     log:
         "logs/resortbam/{sample}.log"
     threads: config_threads
@@ -90,8 +93,8 @@ rule phantompeakqual:
     input:
         rules.re_sort_bam.output.bam
     output:
-        stats = "results/qc/phantompeakqual/{sample}.sorted.remdup.nonblklst.filt.resort.spp.out",
-        crosscorrplot = report("results/qc/phantompeakqual/{sample}.sorted.remdup.nonblklst.filt.resort.pdf", caption="report/phantompeakquals.rst", category="Quality control")
+        stats="results/qc/phantompeakqual/{sample}.sorted.remdup.nonblklst.filt.resort.spp.out",
+        crosscorrplot=report("results/qc/phantompeakqual/{sample}.sorted.remdup.nonblklst.filt.resort.pdf",caption="report/phantompeakquals.rst",category="Quality control")
     conda:
         "../envs/phantompeakqualtools.yaml"
     log:

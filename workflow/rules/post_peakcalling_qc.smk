@@ -39,8 +39,10 @@ rule ataqv_merge:
 
 rule multiqc:
     input:
-        expand(["results/qc/fastqc/{sample}_{group}_fastqc.html", "results/qc/flagstat/{sample}.txt",
-            "results/qc/phantompeakqual/{sample}.sorted.remdup.nonblklst.filt.resort.spp.out"], group=["r1", "r2"], sample = samples)
+        expand(["results/qc/flagstat/{sample}.txt",
+            "results/qc/phantompeakqual/{sample}.sorted.remdup.nonblklst.filt.resort.spp.out"], sample = samples),
+        expand(["results/qc/fastqc/{se_sample}_fastqc.html"], se_sample = se_samples),
+        expand(["results/qc/fastqc/{pe_sample}_{group}_fastqc.html"], pe_sample = pe_samples, group = ["r1", "r2"])
     output:
         report("results/qc/multiqc/multiqc_report.html", caption="report/multiqc.rst", category="Quality control")
     conda:

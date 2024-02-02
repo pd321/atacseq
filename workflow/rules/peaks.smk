@@ -11,6 +11,6 @@ rule macs2:
         "logs/macs2/{sample}.log"
     threads: config_threads
     params:
-        extra = "--format BAMPE --gsize {macs2_genome} --keep-dup all --nomodel".format(macs2_genome = config['macs2']['gsize'])
+        extra = get_macs2_params
     wrapper:
         "v1.24.0/bio/macs2/callpeak"

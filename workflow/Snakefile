@@ -6,16 +6,26 @@ include: "rules/peaks.smk"
 include: "rules/bw.smk"
 include: "rules/post_peakcalling_qc.smk"
 
+
 rule all:
     input:
         "results/qc/multiqc/multiqc_report.html",
         "results/qc/ataqv/report/index.html",
-        expand("results/peaks/{sample}/{sample}_peaks.narrowPeak", sample = samples),
-        expand("results/bw/{sample}.bw", sample = samples)
+        expand("results/peaks/{sample}/{sample}_peaks.narrowPeak", sample=samples),
+        expand("results/bw/{sample}.bw", sample=samples),
 
 
 onsuccess:
-    shell("if command -v telegram-notify; then telegram-notify --success --text \'snakemake:atacseq:{} completed\'; fi".format(run_name.replace("_", "\\_")))
+    shell(
+        "if command -v telegram-notify; then telegram-notify --success --text 'snakemake:atacseq:{} completed'; fi".format(
+            run_name.replace("_", "\\_")
+        )
+    )
+
 
 onerror:
-    shell("if command -v telegram-notify; then telegram-notify --error --text \'snakemake:atacseq:{} failed\'; fi".format(run_name.replace("_", "\\_")))
+    shell(
+        "if command -v telegram-notify; then telegram-notify --error --text 'snakemake:atacseq:{} failed'; fi".format(
+            run_name.replace("_", "\\_")
+        )
+    )

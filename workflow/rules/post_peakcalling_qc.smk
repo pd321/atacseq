@@ -1,58 +1,73 @@
 rule ataqv:
     input:
-        bam = rules.re_sort_bam.output.bam,
-        peaks = "results/peaks/{sample}/{sample}_peaks.narrowPeak"
+        bam=rules.re_sort_bam.output.bam,
+        peaks="results/peaks/{sample}/{sample}_peaks.narrowPeak",
     output:
-        temp("results/qc/ataqv/{sample}.ataqv.json")
+        temp("results/qc/ataqv/{sample}.ataqv.json"),
     conda:
         "../envs/ataqv.yaml"
     log:
-        "logs/ataqv/{sample}.log"
+        "logs/ataqv/{sample}.log",
     params:
-        organism = config['ataqv']['organism'],
-        tssfile = config['ataqv']['tssfile'],
-        excludedregionfile = config['blklist_regions']
+        organism=config["ataqv"]["organism"],
+        tssfile=config["ataqv"]["tssfile"],
+        excludedregionfile=config["blklist_regions"],
     threads: config_threads
     shell:
-        'ataqv '
-        '--peak-file {input.peaks} '
-        '--threads {threads} '
-        '--metrics-file {output} '
-        '--name {wildcards.sample} '
-        '--tss-file {params.tssfile} '
-        '--excluded-region-file {params.excludedregionfile} '
-        '{params.organism} {input.bam} 2>&1 | tee {log}'
+        "ataqv "
+        "--peak-file {input.peaks} "
+        "--threads {threads} "
+        "--metrics-file {output} "
+        "--name {wildcards.sample} "
+        "--tss-file {params.tssfile} "
+        "--excluded-region-file {params.excludedregionfile} "
+        "{params.organism} {input.bam} 2>&1 | tee {log}"
+
 
 rule ataqv_merge:
     input:
-        expand("results/qc/ataqv/{sample}.ataqv.json", sample = samples)
+        expand("results/qc/ataqv/{sample}.ataqv.json", sample=samples),
     output:
-        "results/qc/ataqv/report/index.html"
+        "results/qc/ataqv/report/index.html",
     conda:
         "../envs/ataqv.yaml"
     threads: config_threads
     shell:
-        'mkarv '
-        '--concurrency {threads} '
-        '--force '
-        'results/qc/ataqv/report {input}'
+        "mkarv "
+        "--concurrency {threads} "
+        "--force "
+        "results/qc/ataqv/report {input}"
+
 
 rule multiqc:
     input:
-        expand(["results/qc/flagstat/{sample}.txt",
-            "results/qc/phantompeakqual/{sample}.sorted.remdup.nonblklst.filt.resort.spp.out"], sample = samples),
-        expand(["results/qc/fastqc/{se_sample}_fastqc.html"], se_sample = se_samples),
-        expand(["results/qc/fastqc/{pe_sample}_{group}_fastqc.html"], pe_sample = pe_samples, group = ["r1", "r2"])
+        expand(
+            [
+                "results/qc/flagstat/{sample}.txt",
+                "results/qc/phantompeakqual/{sample}.sorted.remdup.nonblklst.filt.resort.spp.out",
+            ],
+            sample=samples,
+        ),
+        expand(["results/qc/fastqc/{se_sample}_fastqc.html"], se_sample=se_samples),
+        expand(
+            ["results/qc/fastqc/{pe_sample}_{group}_fastqc.html"],
+            pe_sample=pe_samples,
+            group=["r1", "r2"],
+        ),
     output:
-        report("results/qc/multiqc/multiqc_report.html", caption="report/multiqc.rst", category="Quality control")
+        report(
+            "results/qc/multiqc/multiqc_report.html",
+            caption="report/multiqc.rst",
+            category="Quality control",
+        ),
     conda:
         "../envs/multiqc.yaml"
     threads: 1
     log:
-        "logs/qc/multiqc/multiqc.log"
+        "logs/qc/multiqc/multiqc.log",
     shell:
-        'multiqc '
-        '--force '
-        '--outdir results/qc/multiqc '
-        '--zip-data-dir '
-        '. 2>&1 | tee {log}'
+        "multiqc "
+        "--force "
+        "--outdir results/qc/multiqc "
+        "--zip-data-dir "
+        ". 2>&1 | tee {log}"

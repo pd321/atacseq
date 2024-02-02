@@ -1,9 +1,9 @@
 rule fastqc_se:
     input:
-        lambda wildcards: samplesheet[wildcards.se_sample]["r1"]
+        lambda wildcards: samplesheet[wildcards.se_sample]["r1"],
     output:
         html="results/qc/fastqc/{se_sample}_fastqc.html",
-        zip="results/qc/fastqc/{se_sample}_fastqc.zip"
+        zip="results/qc/fastqc/{se_sample}_fastqc.zip",
     log:
         "logs/qc/fastqc/{se_sample}.log",
     threads: config_threads
@@ -13,10 +13,10 @@ rule fastqc_se:
 
 rule fastqc_pe:
     input:
-        lambda wildcards: samplesheet[wildcards.pe_sample][wildcards.group]
+        lambda wildcards: samplesheet[wildcards.pe_sample][wildcards.group],
     output:
         html="results/qc/fastqc/{pe_sample}_{group}_fastqc.html",
-        zip="results/qc/fastqc/{pe_sample}_{group}_fastqc.zip"
+        zip="results/qc/fastqc/{pe_sample}_{group}_fastqc.zip",
     log:
         "logs/qc/fastqc/{pe_sample}_{group}.log",
     threads: config_threads

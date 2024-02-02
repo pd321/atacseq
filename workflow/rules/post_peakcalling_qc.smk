@@ -31,12 +31,14 @@ rule ataqv_merge:
         "results/qc/ataqv/report/index.html",
     conda:
         "../envs/ataqv.yaml"
+    log:
+        "logs/ataqv/merge.log",
     threads: config_threads
     shell:
         "mkarv "
         "--concurrency {threads} "
         "--force "
-        "results/qc/ataqv/report {input}"
+        "results/qc/ataqv/report {input} 2>&1 | tee {log}"
 
 
 rule multiqc:

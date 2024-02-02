@@ -56,7 +56,7 @@ rule trimgalore_se:
 
 rule trimgalore_pe:
     input:
-        get_fastq_pe,
+        unpack(get_fastq_pe),
     output:
         r1="results/qc/trimgalore/{sample}_val_1.fq.gz",
         r2="results/qc/trimgalore/{sample}_val_2.fq.gz",
@@ -82,4 +82,4 @@ rule trimgalore_pe:
         "--cores {params.threads_actual} "
         "--basename {wildcards.sample} "
         "--paired --no_report_file "
-        "{input[0]} {input[1]} 2>&1 | tee {log}"
+        "{input.r1} {input.r2} 2>&1 | tee {log}"
